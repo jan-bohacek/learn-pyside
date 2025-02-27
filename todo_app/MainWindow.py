@@ -1,5 +1,5 @@
-from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea, QLineEdit, QTextEdit
-from PySide6.QtCore import Qt
+from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea, QLineEdit, QTextEdit, QSizePolicy
+from PySide6.QtCore import Qt, QDateTime
 from Task import Task
 
 class MainWindow(QWidget):
@@ -16,24 +16,31 @@ class MainWindow(QWidget):
         main_layout.addLayout(left_layout, 5)
         main_layout.addLayout(new_task_layout, 3)
 
-        # task list
+        # TASKS LIST
         self.task_1 = Task()
         self.task_2 = Task()
-        # self.task_3 = Task()
-
+        self.task_3 = Task()
+        self.task_4 = Task()
+        self.task_5 = Task()
+        
         self.tasks_layout = QVBoxLayout()
         self.tasks_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
         self.tasks_layout.addWidget(self.task_1)
         self.tasks_layout.addWidget(self.task_2)
-        # self.tasks_layout.addWidget(self.task_3)
+        self.tasks_layout.addWidget(self.task_3)
+        self.tasks_layout.addWidget(self.task_4)
+        self.tasks_layout.addWidget(self.task_5)
 
-        self.task_scroll = QScrollArea()
-        # self.task_scroll.setMinimumWidth(500)
-        self.task_scroll.setLayout(self.tasks_layout)
+        # scrolling
+        self.tasks_widget = QWidget()
+        self.tasks_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
+        self.tasks_widget.setLayout(self.tasks_layout)
+        self.tasks_scroll = QScrollArea()
+        self.tasks_scroll.setWidget(self.tasks_widget)
 
-        left_layout.addWidget(self.task_scroll)
+        left_layout.addWidget(self.tasks_scroll)
 
-        # create new task
+        ## CREATE NEW TASK
         self.create_button = QPushButton("Create")
         self.create_button.clicked.connect(self.create_new_task)
 
@@ -46,6 +53,7 @@ class MainWindow(QWidget):
         self.new_task_description.setText("Enter Description")
 
         self.new_task_timestamp = QLineEdit()
+        self.new_task_timestamp.setText(QDateTime.currentDateTime().toString("yyyy-mm-dd hh:mm:ss"))
         
         # layout
         self.new_task_layout = QVBoxLayout()

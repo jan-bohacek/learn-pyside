@@ -1,0 +1,20 @@
+QWidget
+{
+    background-color: blue
+}
+QLineEdit
+{
+    background-color: red
+}
+QTextEdit
+{
+    background-color: green
+}
+QPushButton
+{
+    background-color: yellow
+}
+QFrame
+{
+    background-color: pink
+}
