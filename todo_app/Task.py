@@ -1,27 +1,27 @@
 from PySide6.QtWidgets import QFrame, QGridLayout, QPushButton, QLabel, QSpacerItem, QSizePolicy
 
 class Task(QFrame):
-    def __init__(self):
+    def __init__(self, timestamp, title, description):
         super().__init__()
-
-        self.setFixedHeight(100)
-        self.setStyleSheet("background-color: darkgreen")
         
         layout = QGridLayout()
-        # layout.setSizeConstraint()
 
-        self.timestamp = "2025-02-27   15:30"
-        self.title = "Example Task"
-        self.description = "Description of the task"
+        self.timestamp = timestamp
+        self.title = title
+        self.description = description
 
         self.timestamp_widget = QLabel(self.timestamp)
         self.title_widget = QLabel(self.title)
         self.description_widget = QLabel(self.description)
+        self.description_widget.setHidden(True)
         
-        self.show_button = QPushButton("Show More")
+        self.show_button = QPushButton("Show More", objectName="show_button")
         self.show_button.setMinimumSize(100, 20)
-        self.delete_button = QPushButton("Delete")
+        self.show_button.clicked.connect(self.toggle_details)
+
+        self.delete_button = QPushButton("Delete", objectName="delete_button")
         self.delete_button.setMinimumSize(100, 20)
+        self.delete_button.clicked.connect(self.close)
 
         layout.addWidget(self.timestamp_widget, 0, 0)
         layout.addWidget(self.title_widget, 1, 0)
@@ -35,4 +35,11 @@ class Task(QFrame):
 
         self.setLayout(layout)
 
+    def toggle_details(self):
+        if self.description_widget.isHidden():
+            self.show_button.setText("Show Less")
+            self.description_widget.setHidden(False)
+        else:
+            self.show_button.setText("Show More")
+            self.description_widget.setHidden(True)
 
