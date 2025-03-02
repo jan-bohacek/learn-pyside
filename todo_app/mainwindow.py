@@ -3,6 +3,7 @@ from PySide6.QtCore import Qt, QDateTime
 from task import Task
 import os
 import sys
+import json
 
 
 class MainWindow(QWidget):
@@ -22,6 +23,8 @@ class MainWindow(QWidget):
         # TASKS LIST
         self.tasks_layout = QVBoxLayout()
         self.tasks_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
+
+        self.load_existing_tasks()
 
         # scrolling
         self.tasks_frame = QFrame(objectName="tasks_frame")
@@ -77,12 +80,35 @@ class MainWindow(QWidget):
         self.new_task_reset()
 
     def closeEvent(self, event):
+        user = os.getlogin()
+        dir = f"{os.path.dirname(os.path.abspath(__file__))}\\users"
+        if not os.path.isdir(dir):
+            os.mkdir(dir)
+
+        tasks_dict = dict()
         n_tasks = self.tasks_layout.count()
         for i in range(n_tasks):
             task = self.tasks_layout.itemAt(i).widget()
-            task_title = task.title
-            task_timestamp = task.timestamp
-            task_description = task.description
-            print(f"Task named '{task_title}', created on {task_timestamp}, with description '{task_description}'")
+            tasks_dict[f"task_{i:03}"] = dict()
+            tasks_dict[f"task_{i:03}"]["title"] = task.title
+            tasks_dict[f"task_{i:03}"]["timestamp"] = task.timestamp
+            tasks_dict[f"task_{i:03}"]["description"] = task.description
+            
+        with open(f"{dir}\\{user}.json", "w") as json_file:
+            json.dump(tasks_dict, json_file, indent=4)
         event.accept()
+
+    def load_existing_tasks(self):
+        user = os.getlogin()
+        dir = f"{os.path.dirname(os.path.abspath(__file__))}\\users"
+        file = f"{dir}\\{user}.json"
+        if os.path.isfile(file):
+            with open(file, "r") as json_file:
+                tasks_dict = json.load(json_file)
+            for key in tasks_dict:
+                timestamp = tasks_dict[key]["timestamp"]
+                title = tasks_dict[key]["title"]
+                description = tasks_dict[key]["description"]
+                new_task = Task(timestamp, title, description)
+                self.tasks_layout.addWidget(new_task)
         
