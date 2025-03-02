@@ -21,7 +21,7 @@ class Task(QFrame):
 
         self.delete_button = QPushButton("Delete", objectName="delete_button")
         self.delete_button.setMinimumSize(100, 20)
-        self.delete_button.clicked.connect(self.close)
+        self.delete_button.clicked.connect(self.delete_task)
 
         layout.addWidget(self.timestamp_widget, 0, 0)
         layout.addWidget(self.title_widget, 1, 0)
@@ -42,4 +42,10 @@ class Task(QFrame):
         else:
             self.show_button.setText("Show More")
             self.description_widget.setHidden(True)
+
+    def delete_task(self):
+        parent = self.parent()
+        layout = parent.layout()
+        layout.removeWidget(self)
+        self.deleteLater()
 

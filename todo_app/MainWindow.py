@@ -1,6 +1,8 @@
 from PySide6.QtWidgets import QWidget, QHBoxLayout, QVBoxLayout, QPushButton, QScrollArea, QLineEdit, QTextEdit, QSizePolicy, QFrame, QDateTimeEdit
 from PySide6.QtCore import Qt, QDateTime
 from task import Task
+import os
+import sys
 
 
 class MainWindow(QWidget):
@@ -18,19 +20,8 @@ class MainWindow(QWidget):
         main_layout.addLayout(new_task_layout, 3)
 
         # TASKS LIST
-        # self.task_1 = Task()
-        # self.task_2 = Task()
-        # self.task_3 = Task()
-        # self.task_4 = Task()
-        # self.task_5 = Task()
-        
         self.tasks_layout = QVBoxLayout()
         self.tasks_layout.setAlignment(Qt.AlignmentFlag.AlignTop)
-        # self.tasks_layout.addWidget(self.task_1)
-        # self.tasks_layout.addWidget(self.task_2)
-        # self.tasks_layout.addWidget(self.task_3)
-        # self.tasks_layout.addWidget(self.task_4)
-        # self.tasks_layout.addWidget(self.task_5)
 
         # scrolling
         self.tasks_frame = QFrame(objectName="tasks_frame")
@@ -84,4 +75,14 @@ class MainWindow(QWidget):
 
         self.tasks_layout.addWidget(new_task)
         self.new_task_reset()
+
+    def closeEvent(self, event):
+        n_tasks = self.tasks_layout.count()
+        for i in range(n_tasks):
+            task = self.tasks_layout.itemAt(i).widget()
+            task_title = task.title
+            task_timestamp = task.timestamp
+            task_description = task.description
+            print(f"Task named '{task_title}', created on {task_timestamp}, with description '{task_description}'")
+        event.accept()
         

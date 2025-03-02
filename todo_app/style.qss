@@ -1,4 +1,7 @@
-
+QWidget
+{
+    background-color: white;
+}
 QLabel
 {
     color: black;
@@ -15,21 +18,26 @@ QTextEdit
     color: black;
     border-radius: 2px;
 }
+QDateTimeEdit
+{
+    color: black;
+}
+
 QScrollArea
 {
     border: 0px;
 }
 
-QScrollBar
+QScrollBar::vertical
 {
     width: 20;
     background-color: #e0c7d6;
 }
-QScrollBar::handle
+QScrollBar::handle::vertical
 {
     border: 5px;
-    background-color: darkgrey;
-}
+    background-color: #444;
+}   
 
 #new_task_frame
 {
