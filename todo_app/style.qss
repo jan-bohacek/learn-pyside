@@ -31,21 +31,21 @@ QScrollArea
 QScrollBar::vertical
 {
     width: 20;
-    background-color: #e0c7d6;
+    background-color: #cab7b7;
 }
 QScrollBar::handle::vertical
 {
     border: 5px;
-    background-color: #444;
+    background-color: #333;
 }   
 
 #new_task_frame
 {
-    background-color: #e0c7d6;
+    background-color: #cab7b7;
 }
 #tasks_frame
 {
-    background-color: #e0c7d6;
+    background-color: #cab7b7;
 }
 #create_task_button
 {
