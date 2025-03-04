@@ -14,19 +14,21 @@ class Task(QFrame):
         self.title_widget = QLabel(self.title)
         self.description_widget = QLabel(self.description)
         self.description_widget.setHidden(True)
+        self.description_widget.setWordWrap(True)
+        self.description_widget.setSizePolicy(QSizePolicy.Expanding, QSizePolicy.Expanding)
         
         self.show_button = QPushButton("Show More", objectName="show_button")
-        self.show_button.setMinimumSize(100, 20)
+        self.show_button.setFixedSize(100, 20)
         self.show_button.clicked.connect(self.toggle_details)
 
         self.delete_button = QPushButton("Delete", objectName="delete_button")
-        self.delete_button.setMinimumSize(100, 20)
+        self.delete_button.setFixedSize(100, 20)
         self.delete_button.clicked.connect(self.delete_task)
 
         layout.addWidget(self.timestamp_widget, 0, 0)
         layout.addWidget(self.title_widget, 1, 0)
         layout.addWidget(self.show_button, 2, 0)
-        layout.addWidget(self.description_widget, 3, 0)
+        layout.addWidget(self.description_widget, 3, 0, 1, 3)
         spacer = QSpacerItem(200, 10, QSizePolicy.Expanding, QSizePolicy.Minimum)
         layout.addItem(spacer, 0, 1)
 
